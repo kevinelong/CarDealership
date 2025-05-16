@@ -14,12 +14,20 @@ public class LeaseContract extends BusinessContract {
             double totalPrice,
             /* ******** NEW ********* */
             double expectedEndingValue,
-            double leaseFee
+            double leaseFee,
+            double monthlyPayment
     ) {
-        super(vehicle, date, customerName, customerEmail, isSold, totalPrice);
+        super(vehicle, date, customerName, customerEmail, isSold, totalPrice, monthlyPayment);
         this.expectedEndingValue = expectedEndingValue;
         this.leaseFee = leaseFee;
     }
+    /*
+    A LeaseContract will include the following additional information:
+• Expected Ending Value (50% of the original price)
+• Lease Fee (7% of the original price)
+• Monthly payment based on
+• All leases are financed at 4.0% for 36 months
+     */
 
     public String toString() {
         return super.toString() + String.format("""

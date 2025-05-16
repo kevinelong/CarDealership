@@ -115,7 +115,8 @@ public class ContractFileManager {
                     salesTaxAmount,
                     recordingFee,
                     processingFee,
-                    isFinanced
+                    isFinanced,
+                    0
             );
         } else if(contractType.equalsIgnoreCase("LEASE")) {
             //LEASE SPECIFIC
@@ -132,7 +133,8 @@ public class ContractFileManager {
                     isSold,
                     combined,
                     expectedValue,
-                    fee
+                    fee,
+                    monthly
             );
         }
 

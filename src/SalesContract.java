@@ -17,17 +17,18 @@ public class SalesContract extends BusinessContract {
             double salesTaxAmount,
             double recordingFee,
             double processingFee,
-            boolean isFinanced
+            boolean isFinanced,
+            double monthlyPayment
     ){
-        super(vehicle, date, customerName, customerEmail, isSold, totalPrice);
+        super(vehicle, date, customerName, customerEmail, isSold, totalPrice, monthlyPayment);
         this.salesTaxAmount = salesTaxAmount;
         this.recordingFee = recordingFee;
         this.processingFee = processingFee;
         this.isFinanced = isFinanced;
     }
 
-    public SalesContract(Date date, Vehicle vehicle, String customerName, String customerEmail) {
-        super(vehicle, date, customerName, customerEmail, false, 0 );
+    public SalesContract(Date date, Vehicle vehicle, String customerName, String customerEmail, double monthlyPayment) {
+        super(vehicle, date, customerName, customerEmail, false, 0, monthlyPayment);
         double price = vehicle.getPrice();
 
         // Sales Tax Amount (5%)
@@ -44,6 +45,7 @@ public class SalesContract extends BusinessContract {
 
         this.setTotalPrice(totalPrice);
     }
+
 
     public String toString(){
         return super.toString() + String.format("""

@@ -15,7 +15,8 @@ public abstract class BusinessContract {
             String customerName,
             String customerEmail,
             boolean isSold,
-            double totalPrice
+            double totalPrice,
+            double monthlyPayment
     ) {
         this.vehicle = vehicle;
         this.date = date;
@@ -23,6 +24,7 @@ public abstract class BusinessContract {
         this.customerEmail = customerEmail;
         this.isSold = isSold;
         this.totalPrice = totalPrice;
+        this.monthlyPayment = monthlyPayment;
     }
     public String toString(){
         return String.format("""

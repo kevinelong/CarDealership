@@ -127,11 +127,17 @@ class UserInterface{
 
     private void processSaleRequest() {
         Date date = new Date();
-        String customerName = getString("Enter Customer Name:");
-        String customerEMail = getString("Enter Customer EMail:");
+        String customerName = getString("Enter Customer Name");
+        String customerEMail = getString("Enter Customer EMail");
         int vin = getInt("VIN");
         Vehicle vehicle = dealership.getVehicleByVIN(vin);
-        SalesContract sc = new SalesContract(date, vehicle, customerName, customerEMail);
+        double totalPrice = vehicle.getPrice();
+//        All loans are at 4.25% for 48 months if the price is $10,000 or more
+//• Otherwise they are at 5.25% for 24 month
+        double rate = 0.0425 / 12;
+        int payments = totalPrice >= 10000 ? 48 : 24;
+        double monthlyPayment = totalPrice * (rate / (1 - Math.pow(1 + rate, -payments)));
+        SalesContract sc = new SalesContract(date, vehicle, customerName, customerEMail, monthlyPayment);
 
         //DISPLAY CONTRACT
         System.out.println("TOTAL PRICE: " + sc.getTotalPrice());
@@ -146,7 +152,42 @@ class UserInterface{
         this.contractList.addContract(sc);
     }
     private void processLeaseRequest() {
+        Date date = new Date();
+        String customerName = getString("Enter Customer Name");
+        String customerEMail = getString("Enter Customer EMail");
+        int vin = getInt("VIN");
+        Vehicle vehicle = dealership.getVehicleByVIN(vin);
 
+        double price = vehicle.getPrice();
+
+        //Expected Ending Value (50% of the original price)
+        double expectedEndingValue =  price / 2;
+
+        //• Lease Fee (7% of the original price)
+        double leaseFee = 0.07 * price;
+
+        double totalPrice = expectedEndingValue + leaseFee;
+
+        //• Monthly payment based on
+        //• All leases are financed at 4.0% for 36 months
+        int payments = 36;
+        double rate = 0.04 / 12;
+        double monthlyPayment = totalPrice * (rate / (1 - Math.pow(1 + rate, -payments)));
+
+        LeaseContract sc = new LeaseContract(vehicle, date, customerName, customerEMail, false, totalPrice, expectedEndingValue, leaseFee, monthlyPayment);
+
+
+        //DISPLAY CONTRACT
+        System.out.println("TOTAL PRICE: " + sc.getTotalPrice());
+
+        //CONFIRM CONTRACT
+        System.out.println(sc);
+
+        boolean confirm = getString("Continue (yes/no) :").equalsIgnoreCase("yes");
+        if(!confirm){
+            return;
+        }
+        this.contractList.addContract(sc);
     }
     private void processAddVehicleRequest() {
         //TODO Collect all info from user
