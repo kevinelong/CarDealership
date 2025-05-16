@@ -1,19 +1,26 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 
 class UserInterface{
     private Dealership dealership;
-    BufferedReader in;
-    DealershipFileManager manager;
+    private BufferedReader in;
+    private DealershipFileManager manager;
+    private ContractList contractList;
+
     UserInterface() {
         this.init();
     }
+
     private void init(){
         this.in = new BufferedReader(new InputStreamReader(System.in));
         this.manager = new DealershipFileManager();
         this.dealership = this.manager.getDealership();
+//        this.contractManager = new ContractFileManager();
+        this.contractList = new ContractList(); //this.contractManager.getContractList();
     }
+
     void display() {
         String command = "";
         while (!command.equalsIgnoreCase("x")) {
@@ -27,9 +34,16 @@ class UserInterface{
                             c) color
                             o) odometer miles
                             t) type (e.g. sedan)
+
+                        Vehicle: 
                             +) add
                             -) remove
-                            x) e(x)it
+                        
+                        Contracts:
+                            s) add sales
+                            l) add lease
+                            
+                        x) e(x)it
                     """);
             command = null;
             try {
@@ -47,6 +61,8 @@ class UserInterface{
                 case "t" -> processGetByTypeRequest();
                 case "+" -> processAddVehicleRequest();
                 case "-" -> processRemoveVehiclesRequest();
+                case "s" -> processSaleRequest();
+                case "l" -> processLeaseRequest();
                 case "x" -> System.out.println("Thanks!");
                 default -> System.out.println("Invalid Command");
             }
@@ -109,6 +125,22 @@ class UserInterface{
         }
     }
 
+    private void processSaleRequest() {
+        Date date = new Date();
+        String customerName = getString("Enter Customer Name:");
+        String customerEMail = getString("Enter Customer EMail:");
+        int vin = getInt("VIN");
+        //DISPLAY CONTRACT
+
+        //CONFIRM CONTRACT
+//        SalesContract sc = new SalesContract(
+//
+//        );
+//        this.contractList.addContract(sc);
+    }
+    private void processLeaseRequest() {
+
+    }
     private void processAddVehicleRequest() {
         //TODO Collect all info from user
         int vin = getInt("VIN");
