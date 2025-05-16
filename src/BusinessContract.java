@@ -56,6 +56,10 @@ public abstract class BusinessContract {
     abstract double getTotalPrice();
     abstract double getMonthlyPayment();
 
+    protected void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 //    public static void main(String[] args) {
 //        //TEST FOR THIS CLASS ONLY
 //        BusinessContract bc = new BusinessContract(

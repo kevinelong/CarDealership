@@ -23,6 +23,15 @@ class Dealership {
     }
 
     //METHODS
+    public Vehicle getVehicleByVIN(int vin) {
+        for (Vehicle v : inventory) {
+            if (v.getVIN() == vin) {
+                return v;
+            }
+        }
+        return null;
+    }
+
     public List<Vehicle> getVehiclesByPrice(double min, double max) {
         ArrayList<Vehicle> matches = new ArrayList<>();
         for (Vehicle v : inventory) {

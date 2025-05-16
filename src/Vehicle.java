@@ -1,5 +1,5 @@
 
-class Vehicle {
+public class Vehicle {
     private int vin; //NOT A STRING?
     private int year;
     private String make;

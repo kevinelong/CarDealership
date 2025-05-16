@@ -25,6 +25,26 @@ public class SalesContract extends BusinessContract {
         this.processingFee = processingFee;
         this.isFinanced = isFinanced;
     }
+
+    public SalesContract(Date date, Vehicle vehicle, String customerName, String customerEmail) {
+        super(vehicle, date, customerName, customerEmail, false, 0 );
+        double price = vehicle.getPrice();
+
+        // Sales Tax Amount (5%)
+        double tax = 0.05 * price;
+
+        //• Recording Fee ($100)
+        double fee = 100;
+
+        //• Processing fee ($295 for vehicles under $10,000 and $495 for all others
+        double processingFee = price < 10000 ? 295.00 : 495.00;
+
+        //TOTAL PRICE
+        double totalPrice = price + tax + fee + processingFee;
+
+        this.setTotalPrice(totalPrice);
+    }
+
     public String toString(){
         return super.toString() + String.format("""
                 Sales Tax Amount: %.2f

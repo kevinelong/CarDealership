@@ -130,13 +130,20 @@ class UserInterface{
         String customerName = getString("Enter Customer Name:");
         String customerEMail = getString("Enter Customer EMail:");
         int vin = getInt("VIN");
+        Vehicle vehicle = dealership.getVehicleByVIN(vin);
+        SalesContract sc = new SalesContract(date, vehicle, customerName, customerEMail);
+
         //DISPLAY CONTRACT
+        System.out.println("TOTAL PRICE: " + sc.getTotalPrice());
 
         //CONFIRM CONTRACT
-//        SalesContract sc = new SalesContract(
-//
-//        );
-//        this.contractList.addContract(sc);
+        System.out.println(sc);
+
+        boolean confirm = getString("Continue (yes/no) :").equalsIgnoreCase("yes");
+        if(!confirm){
+            return;
+        }
+        this.contractList.addContract(sc);
     }
     private void processLeaseRequest() {
 
