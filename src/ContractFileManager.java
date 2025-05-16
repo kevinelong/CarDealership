@@ -111,12 +111,10 @@ public class ContractFileManager {
                     customerName,
                     customerEmail,
                     isSold,
-                    totalPrice,
                     salesTaxAmount,
                     recordingFee,
                     processingFee,
-                    isFinanced,
-                    0
+                    isFinanced
             );
         } else if(contractType.equalsIgnoreCase("LEASE")) {
             //LEASE SPECIFIC
@@ -143,7 +141,41 @@ public class ContractFileManager {
 
     String getContractString(BusinessContract bc) {
         //TODO Glue with PIPES ||||
-        return "";
+        ArrayList<String > output = new ArrayList<>();
+
+        output.add(bc instanceof SalesContract  ? "SALE" : "LEASE");
+        output.add(bc.getDate().toString());
+        output.add(bc.getCustomerName().toString());
+        output.add(bc.getCustomerEmail().toString());
+
+        Vehicle vehicle = bc.getVehicle();
+        //678|1985|nissan|maxima|sport sedan|rootbeer|444000|500.00
+        output.add(Integer.valueOf(vehicle.getVIN()).toString());
+        output.add(Integer.valueOf(vehicle.getYear()).toString());
+        output.add(vehicle.getMake());
+        output.add(vehicle.getModel());
+        output.add(vehicle.getType());
+        output.add(vehicle.getColor());
+        output.add(Integer.valueOf(vehicle.getMiles()).toString());
+        output.add(Double.valueOf(vehicle.getPrice()).toString());
+
+        if(bc instanceof SalesContract){
+            output.add(String.valueOf(((SalesContract) bc).getSalesTaxAmount()));
+            output.add(String.valueOf(((SalesContract) bc).getRecordingFee()));
+            output.add(String.valueOf(((SalesContract) bc).getProcessingFee()));
+            output.add(String.valueOf( bc.getTotalPrice()));
+            output.add(String.valueOf(((SalesContract) bc).isFinanced()));
+            output.add(String.valueOf(bc.getMonthlyPayment()));
+        }else{
+            //LEASE
+            //LEASE|20210928|Zachary Westly|zach@texas.com|37846|2021|Chevrolet|Silverado|truck|Black|2750|31995.00
+            // |15997.50|2239.65|18337.15|541.3
+            output.add(String.valueOf(((LeaseContract)bc).getExpectedEndingValue()));
+            output.add(String.valueOf(((LeaseContract)bc).getLeaseFee()));
+            output.add(String.valueOf((bc.getTotalPrice())));
+            output.add(String.valueOf((bc.getMonthlyPayment())));
+        }
+        return String.join("|", output);
     }
 
     public static void main(String[] args) {

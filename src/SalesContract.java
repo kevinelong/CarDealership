@@ -12,40 +12,23 @@ public class SalesContract extends BusinessContract {
             String customerName,
             String customerEmail,
             boolean isSold,
-            double totalPrice,
             /* ******** NEW ********* */
             double salesTaxAmount,
             double recordingFee,
             double processingFee,
-            boolean isFinanced,
-            double monthlyPayment
+            boolean isFinanced
     ){
-        super(vehicle, date, customerName, customerEmail, isSold, totalPrice, monthlyPayment);
+        super(vehicle, date, customerName, customerEmail, isSold);
         this.salesTaxAmount = salesTaxAmount;
         this.recordingFee = recordingFee;
         this.processingFee = processingFee;
         this.isFinanced = isFinanced;
     }
 
-    public SalesContract(Date date, Vehicle vehicle, String customerName, String customerEmail, double monthlyPayment) {
-        super(vehicle, date, customerName, customerEmail, false, 0, monthlyPayment);
-        double price = vehicle.getPrice();
-
-        // Sales Tax Amount (5%)
-        double tax = 0.05 * price;
-
-        //• Recording Fee ($100)
-        double fee = 100;
-
-        //• Processing fee ($295 for vehicles under $10,000 and $495 for all others
-        double processingFee = price < 10000 ? 295.00 : 495.00;
-
-        //TOTAL PRICE
-        double totalPrice = price + tax + fee + processingFee;
-
-        this.setTotalPrice(totalPrice);
+    public SalesContract(Date date, Vehicle vehicle, String customerName, String customerEmail) {
+        super(vehicle, date, customerName, customerEmail, false);
+        this.totalPrice = getTotalPrice();
     }
-
 
     public String toString(){
         return super.toString() + String.format("""
@@ -78,14 +61,31 @@ public class SalesContract extends BusinessContract {
         • Otherwise they are at 5.25% for 24 month
     */
     public double getMonthlyPayment(){
-        return 0.0; //STUB
+        double totalPrice = getTotalPrice();
+        //  All loans are at 4.25% for 48 months if the price is $10,000 or more
+        //• Otherwise they are at 5.25% for 24 month
+        double rate = 0.0425 / 12;
+        int payments = totalPrice >= 10000 ? 48 : 24;
+        return totalPrice * (rate / (1 - Math.pow(1 + rate, -payments)));
     }
 
     /* It is possible that getMonthlyPayment() would return
         0 if they chose the NO loan option.
      */
     public double getTotalPrice(){
-        return 0.0; //STUB
+        double price = vehicle.getPrice();
+
+        // Sales Tax Amount (5%)
+        double tax = 0.05 * price;
+
+        //• Recording Fee ($100)
+        double fee = 100;
+
+        //• Processing fee ($295 for vehicles under $10,000 and $495 for all others
+        double processingFee = price < 10000 ? 295.00 : 495.00;
+
+        //TOTAL PRICE
+        return price + tax + fee + processingFee;
     }
 }
 

@@ -117,9 +117,9 @@ class DealershipFileManager {
         }
     }
 
-    public static void main(String[] args) {
-        DealershipFileManager dfm = new DealershipFileManager();
-        Dealership d = dfm.getDealership();
-        dfm.saveDealership(d);
-    }
+//    public static void main(String[] args) {
+//        DealershipFileManager dfm = new DealershipFileManager();
+//        Dealership d = dfm.getDealership();
+//        dfm.saveDealership(d);
+//    }
 }

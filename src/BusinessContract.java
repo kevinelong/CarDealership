@@ -2,39 +2,39 @@ import java.util.Date;
 
 // abstract - CANT CREATE *NEW* INSTANCES DIRECTLY, ONLY OF ITS DESCENDANTS
 public abstract class BusinessContract {
-    private Date date;
-    private String customerName;
-    private String customerEmail;
-    private boolean isSold;
-    private double totalPrice;
-    private double monthlyPayment;
-    private Vehicle vehicle;
+    protected Date date;
+    protected String customerName;
+    protected String customerEmail;
+    protected boolean isSold;
+    protected double totalPrice;
+    protected double monthlyPayment;
+    protected Vehicle vehicle;
+
     BusinessContract(
             Vehicle vehicle,
             Date date,
             String customerName,
             String customerEmail,
-            boolean isSold,
-            double totalPrice,
-            double monthlyPayment
+            boolean isSold
     ) {
         this.vehicle = vehicle;
         this.date = date;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.isSold = isSold;
-        this.totalPrice = totalPrice;
-        this.monthlyPayment = monthlyPayment;
+        this.totalPrice = getTotalPrice();
+        this.monthlyPayment = getMonthlyPayment();
     }
-    public String toString(){
+
+    public String toString() {
         return String.format("""
-                Date:    %s
-                Name:    %s
-                Email:   %s
-                Sold:    %s
-                Total:   %.2f
-                Monthly: %.2f
-                """,
+                        Date:    %s
+                        Name:    %s
+                        Email:   %s
+                        Sold:    %s
+                        Total:   %.2f
+                        Monthly: %.2f
+                        """,
                 this.date,
                 this.customerName,
                 this.customerEmail,
@@ -43,19 +43,29 @@ public abstract class BusinessContract {
                 this.monthlyPayment
         );
     }
-    public Date getDate(){
+
+    public Date getDate() {
         return this.date;
     }
-    public String getCustomerName(){
+
+    public String getCustomerName() {
         return this.customerName;
     }
-    public String getCustomerEmail(){
+
+    public String getCustomerEmail() {
         return this.customerEmail;
     }
-    public boolean isSold(){
+
+    public Vehicle getVehicle() {
+        return this.vehicle;
+    }
+
+    public boolean isSold() {
         return this.isSold;
     }
+
     abstract double getTotalPrice();
+
     abstract double getMonthlyPayment();
 
     protected void setTotalPrice(double totalPrice) {
